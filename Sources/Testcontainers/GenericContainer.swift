@@ -5,7 +5,7 @@ import NIO
 
 public final class GenericContainer {
     
-    let logger = Logger(label: "GenericContainer")
+    let logger: Logger
     
     static let uuid = UUID().uuidString
     
@@ -16,9 +16,10 @@ public final class GenericContainer {
     private var container: Docker.Container?
     private var image: Docker.Image?
     
-    init(name: String, configuration: ContainerConfig) {
+    public init(name: String, configuration: ContainerConfig, logger: Logger = Logger(label: "GenericContainer")) {
         self.name = name
         self.configuration = configuration
+        self.logger = logger
         
         guard let client = DockerClientStrategy().resolve() else {
             self.docker = nil
@@ -28,9 +29,9 @@ public final class GenericContainer {
         self.docker = Docker(client: client)
     }
     
-    convenience init(name: String, port: Int) {
+    public convenience init(name: String, port: Int, logger: Logger = Logger(label: "GenericContainer")) {
         let configuration: ContainerConfig = .build(image: name, exposed: port)
-        self.init(name: name, configuration: configuration)
+        self.init(name: name, configuration: configuration, logger: logger)
     }
 
     public func start() -> EventLoopFuture<ContainerInspectInfo> {
