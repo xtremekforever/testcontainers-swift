@@ -13,7 +13,7 @@ let package = Package(
             targets: ["Testcontainers"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.9.0"),
+        .package(url: "https://github.com/xtremekforever/async-http-client.git", branch: "bugfix/swift-6-unix-socket-host"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.6.1"),
     ],
     targets: [
